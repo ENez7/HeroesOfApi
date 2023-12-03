@@ -1,3 +1,4 @@
+using System.Reflection;
 using HeroesOfApi.Core.Interfaces;
 using HeroesOfApi.Infrastructure.Data;
 using HeroesOfApi.Infrastructure.Repositories;
@@ -18,6 +19,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Interfaces
 builder.Services.AddScoped<IHeroRepository, HeroRepository>();

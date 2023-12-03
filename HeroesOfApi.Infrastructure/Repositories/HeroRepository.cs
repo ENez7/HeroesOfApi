@@ -1,3 +1,5 @@
+using AutoMapper;
+using HeroesOfApi.Core.Dto;
 using HeroesOfApi.Core.Entities;
 using HeroesOfApi.Core.Interfaces;
 using HeroesOfApi.Infrastructure.Data;
@@ -8,10 +10,12 @@ namespace HeroesOfApi.Infrastructure.Repositories;
 public class HeroRepository : IHeroRepository
 {
     private readonly AppDbContext _context;
+    private readonly IMapper _mapper;
 
-    public HeroRepository(AppDbContext context)
+    public HeroRepository(AppDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     public async Task<IEnumerable<Hero>> GetHeroesAsync()
     {
@@ -29,10 +33,20 @@ public class HeroRepository : IHeroRepository
         return hero;
     }
 
-    public Task<Hero> CreateHeroAsync(Hero hero)
+    public async Task<Hero> CreateHeroAsync(CreateHeroDto hero)
     {
-        throw new NotImplementedException();
+        var existingHero = await _context.Heroes.Where(x => x.HeroName == hero.HeroName).FirstOrDefaultAsync();
+        if (existingHero != null)
+        {
+            throw new Exception($"Hero with name {hero.HeroName} already exists.");
+        }
+        
+        var newHero = _mapper.Map<Hero>(hero);
+        _context.Heroes.Update(newHero);
+        await _context.SaveChangesAsync();
+        return newHero;
     }
+
 
     public Task<Hero> UpdateHeroAsync(Hero hero)
     {

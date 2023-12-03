@@ -1,3 +1,4 @@
+using HeroesOfApi.Core.Dto;
 using HeroesOfApi.Core.Entities;
 using HeroesOfApi.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +25,10 @@ public class HeroController : ControllerBase
         return Ok(heroes);
     }
     
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = "GetHeroAsync")]
     [ProducesResponseType(typeof(Hero), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Hero>> GetHeroAsync(int id)
+    public async Task<ActionResult<Hero>> GetHeroAsync([FromRoute]int id)
     {
         try
         {
@@ -38,6 +39,26 @@ public class HeroController : ControllerBase
         {
             Log.Error(e.Message);
             return NotFound(new
+            {
+                Error = e.Message,
+            });
+        }
+    }
+    
+    [HttpPost]
+    [ProducesResponseType(typeof(Hero), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Hero>> CreateHeroAsync(CreateHeroDto hero)
+    {
+        try
+        {
+            var newHero = await _heroRepository.CreateHeroAsync(hero);
+            return CreatedAtRoute(nameof(GetHeroAsync), new {id = newHero.Id}, newHero);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            return BadRequest(new
             {
                 Error = e.Message,
             });
