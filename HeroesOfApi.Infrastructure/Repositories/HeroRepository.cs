@@ -1,6 +1,7 @@
 using HeroesOfApi.Core.Entities;
 using HeroesOfApi.Core.Interfaces;
 using HeroesOfApi.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HeroesOfApi.Infrastructure.Repositories;
 
@@ -12,14 +13,20 @@ public class HeroRepository : IHeroRepository
     {
         _context = context;
     }
-    public Task<IEnumerable<Hero>> GetHeroesAsync()
+    public async Task<IEnumerable<Hero>> GetHeroesAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Heroes.ToListAsync();
     }
 
-    public Task<Hero> GetHeroAsync(int id)
+    public async Task<Hero> GetHeroAsync(int id)
     {
-        throw new NotImplementedException();
+        var hero = await _context.Heroes.Where(h => h.Id == id).FirstOrDefaultAsync();
+        if (hero == null)
+        {
+            throw new Exception($"Hero with id {id} not found");
+        }
+
+        return hero;
     }
 
     public Task<Hero> CreateHeroAsync(Hero hero)

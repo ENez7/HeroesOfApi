@@ -2,6 +2,13 @@ using HeroesOfApi.Core.Interfaces;
 using HeroesOfApi.Infrastructure.Data;
 using HeroesOfApi.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/cityinfo.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
