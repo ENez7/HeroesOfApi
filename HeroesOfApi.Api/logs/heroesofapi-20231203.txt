@@ -1,0 +1,7 @@
+2023-12-03 11:15:38.975 -04:00 [ERR] Id mismatch.
+2023-12-03 11:15:52.149 -04:00 [ERR] Missing type map configuration or unsupported mapping.
+
+Mapping types:
+UpdateHeroDto -> Hero
+HeroesOfApi.Core.Dto.UpdateHeroDto -> HeroesOfApi.Core.Entities.Hero
+2023-12-03 11:18:29.229 -04:00 [ERR] Hero with id 4 not found.

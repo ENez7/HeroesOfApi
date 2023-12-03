@@ -8,6 +8,6 @@ public interface IHeroRepository
     public Task<IEnumerable<Hero>> GetHeroesAsync();
     public Task<Hero> GetHeroAsync(int id);
     public Task<Hero> CreateHeroAsync(CreateHeroDto hero);
-    public Task<Hero> UpdateHeroAsync(Hero hero);
+    public Task<Hero> UpdateHeroAsync(int id, UpdateHeroDto hero);
     public Task DeleteHeroAsync(int id);
 }

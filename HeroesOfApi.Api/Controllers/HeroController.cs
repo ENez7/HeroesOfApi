@@ -64,4 +64,43 @@ public class HeroController : ControllerBase
             });
         }
     }
+
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(typeof(Hero), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<Hero>> UpdateHeroAsync(int id, UpdateHeroDto hero)
+    {
+        try
+        {
+            var updatedHero = await _heroRepository.UpdateHeroAsync(id, hero);
+            return Ok(updatedHero);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            return NotFound(new
+            {
+                Error = e.Message,
+            });
+        }
+    }
+    
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult> DeleteHeroAsync(int id)
+    {
+        try
+        {
+            await _heroRepository.DeleteHeroAsync(id);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            return NotFound(new
+            {
+                Error = e.Message,
+            });
+        }
+    }
 }

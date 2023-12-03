@@ -48,13 +48,31 @@ public class HeroRepository : IHeroRepository
     }
 
 
-    public Task<Hero> UpdateHeroAsync(Hero hero)
+    public async Task<Hero> UpdateHeroAsync(int id, UpdateHeroDto hero)
     {
-        throw new NotImplementedException();
+        if (id != hero.Id)
+        {
+            throw new Exception("Id mismatch.");
+        }
+        var existingHero = await _context.Heroes.FirstOrDefaultAsync(h => h.Id == hero.Id);
+        if (existingHero == null)
+        {
+            throw new Exception($"Hero with id {hero.Id} not found.");
+        }
+        _mapper.Map(hero, existingHero);
+        _context.Heroes.Update(existingHero);
+        await _context.SaveChangesAsync();
+        return existingHero;
     }
 
-    public Task DeleteHeroAsync(int id)
+    public async Task DeleteHeroAsync(int id)
     {
-        throw new NotImplementedException();
+        var hero = await _context.Heroes.FirstOrDefaultAsync(h => h.Id == id);
+        if (hero == null)
+        {
+            throw new Exception($"Hero with id {id} not found.");
+        }
+        _context.Heroes.Remove(hero);
+        await _context.SaveChangesAsync();
     }
 }
