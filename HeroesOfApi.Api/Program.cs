@@ -1,6 +1,6 @@
 using HeroesOfApi.Core.Interfaces;
-using HeroesOfApi.Core.Services;
 using HeroesOfApi.Infrastructure.Data;
+using HeroesOfApi.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Interfaces
-builder.Services.AddScoped<IHeroService, HeroService>();
+builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 
 // Database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??

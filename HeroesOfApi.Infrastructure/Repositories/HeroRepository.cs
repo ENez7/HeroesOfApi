@@ -1,10 +1,17 @@
 using HeroesOfApi.Core.Entities;
 using HeroesOfApi.Core.Interfaces;
+using HeroesOfApi.Infrastructure.Data;
 
-namespace HeroesOfApi.Core.Services;
+namespace HeroesOfApi.Infrastructure.Repositories;
 
-public class HeroService : IHeroService
+public class HeroRepository : IHeroRepository
 {
+    private readonly AppDbContext _context;
+
+    public HeroRepository(AppDbContext context)
+    {
+        _context = context;
+    }
     public Task<IEnumerable<Hero>> GetHeroesAsync()
     {
         throw new NotImplementedException();

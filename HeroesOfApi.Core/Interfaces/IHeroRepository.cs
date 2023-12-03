@@ -2,7 +2,7 @@ using HeroesOfApi.Core.Entities;
 
 namespace HeroesOfApi.Core.Interfaces;
 
-public interface IHeroService
+public interface IHeroRepository
 {
     public Task<IEnumerable<Hero>> GetHeroesAsync();
     public Task<Hero> GetHeroAsync(int id);
