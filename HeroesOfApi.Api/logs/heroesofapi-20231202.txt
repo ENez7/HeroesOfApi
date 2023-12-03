@@ -1,0 +1,1 @@
+2023-12-02 22:52:45.528 -04:00 [ERR] Hero with id 1 not found
