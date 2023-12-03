@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Interfaces
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 
 // Database
