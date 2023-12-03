@@ -1,12 +1,14 @@
 using HeroesOfApi.Core.Dto;
 using HeroesOfApi.Core.Entities;
 using HeroesOfApi.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 namespace HeroesOfApi.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class HeroController : ControllerBase
 {
